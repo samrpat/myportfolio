@@ -1,4 +1,533 @@
-rel="noopener noreferrer"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Name - Portfolio</title>
+  <meta name="description" content="Portfolio of Your Name - Builder of arcade cabinets, Raspberry Pi enthusiast, and PC hardware tinkerer">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { Github, Mail, Linkedin, ExternalLink, X, Moon, Sun, Menu, Code2 } = window.lucide;
+
+    const projectsData = {
+      ongoing: [
+        {
+          id: 1,
+          title: "Custom Arcade Cabinet",
+          description: "Building a full-size arcade cabinet with RetroPie, featuring custom artwork and LED lighting. Supports multiple emulators and controllers.",
+          tags: ["Raspberry Pi", "RetroPie", "Woodworking", "Electronics"],
+          image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=600&fit=crop",
+          links: {
+            github: "https://github.com/yourusername/arcade-build",
+            demo: ""
+          },
+          status: "In Progress",
+          progress: "75%"
+        },
+        {
+          id: 2,
+          title: "Smart Home Dashboard",
+          description: "Raspberry Pi-powered dashboard for monitoring home automation, weather, calendar, and custom widgets.",
+          tags: ["Raspberry Pi", "Python", "React", "IoT"],
+          image: "https://images.unsplash.com/photo-1558002038-1055907df827?w=800&h=600&fit=crop",
+          links: {
+            github: "https://github.com/yourusername/home-dashboard",
+            demo: ""
+          },
+          status: "Active Development",
+          progress: "60%"
+        }
+      ],
+      past: [
+        {
+          id: 3,
+          title: "Custom Gaming PC Build",
+          description: "High-performance gaming PC with custom water cooling loop, RGB synchronization, and cable management. Documented the entire build process.",
+          tags: ["PC Building", "Hardware", "Custom Loop"],
+          image: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=800&h=600&fit=crop",
+          links: {
+            github: "",
+            demo: "https://pcpartpicker.com/b/yourbuild"
+          },
+          completedDate: "2024"
+        },
+        {
+          id: 4,
+          title: "E-commerce Platform",
+          description: "Full-stack online store for a local small business. Includes inventory management, payment processing, and order tracking.",
+          tags: ["React", "Node.js", "Stripe", "MongoDB"],
+          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+          links: {
+            github: "https://github.com/yourusername/ecommerce-platform",
+            demo: "https://demo-store.example.com"
+          },
+          completedDate: "2024"
+        },
+        {
+          id: 5,
+          title: "Network Monitoring System",
+          description: "Raspberry Pi cluster for monitoring network traffic, devices, and security alerts. Features real-time dashboards and notifications.",
+          tags: ["Raspberry Pi", "Linux", "Networking", "Docker"],
+          image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=600&fit=crop",
+          links: {
+            github: "https://github.com/yourusername/network-monitor",
+            demo: ""
+          },
+          completedDate: "2023"
+        },
+        {
+          id: 6,
+          title: "Retro Handheld Console",
+          description: "Custom-built portable gaming device using Raspberry Pi Zero, featuring a 3D-printed case and rechargeable battery system.",
+          tags: ["Raspberry Pi", "3D Printing", "Electronics", "RetroPie"],
+          image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=600&fit=crop",
+          links: {
+            github: "https://github.com/yourusername/handheld-console",
+            demo: ""
+          },
+          completedDate: "2023"
+        }
+      ]
+    };
+
+    const App = () => {
+      const [darkMode, setDarkMode] = React.useState(false);
+      const [selectedProject, setSelectedProject] = React.useState(null);
+      const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+      const [activeSection, setActiveSection] = React.useState('home');
+
+      React.useEffect(() => {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setDarkMode(prefersDark);
+      }, []);
+
+      React.useEffect(() => {
+        if (darkMode) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }, [darkMode]);
+
+      const scrollToSection = (id) => {
+        const element = document.getElementById(id);
+        element?.scrollIntoView({ behavior: 'smooth' });
+        setMobileMenuOpen(false);
+        setActiveSection(id);
+      };
+
+      return (
+        <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+          <style>{`
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+            * { font-family: 'Inter', sans-serif; }
+            .font-mono { font-family: 'JetBrains Mono', monospace; }
+            .dark { color-scheme: dark; }
+            .gradient-text {
+              background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            }
+            .project-card { transition: all 0.3s ease; }
+            .project-card:hover { transform: translateY(-4px); }
+            .animate-float { animation: float 3s ease-in-out infinite; }
+            @keyframes float {
+              0%, 100% { transform: translateY(0px); }
+              50% { transform: translateY(-10px); }
+            }
+            .blur-bg { backdrop-filter: blur(10px); }
+            @keyframes fadeIn {
+              from { opacity: 0; transform: translateY(20px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+            .fade-in { animation: fadeIn 0.6s ease-out; }
+          `}</style>
+
+          <nav className={`fixed top-0 w-full z-50 blur-bg ${darkMode ? 'bg-gray-900/80' : 'bg-white/80'} border-b ${darkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+            <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <Code2 className={`w-6 h-6 ${darkMode ? 'text-green-400' : 'text-green-600'}`} />
+                <span className={`font-bold text-xl ${darkMode ? 'text-white' : 'text-gray-900'}`}>YourName</span>
+              </div>
+              <div className="hidden md:flex items-center gap-8">
+                {['home', 'about', 'projects', 'contact'].map((section) => (
+                  <button
+                    key={section}
+                    onClick={() => scrollToSection(section)}
+                    className={`capitalize font-medium transition-colors ${
+                      activeSection === section
+                        ? darkMode ? 'text-green-400' : 'text-green-600'
+                        : darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    {section}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className={`p-2 rounded-lg transition-colors ${darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-gray-100 text-gray-700'}`}
+                >
+                  {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </button>
+              </div>
+              <div className="md:hidden flex items-center gap-2">
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-gray-100 text-gray-700'}`}
+                >
+                  {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </button>
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className={`p-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}
+                >
+                  <Menu className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+            {mobileMenuOpen && (
+              <div className={`md:hidden ${darkMode ? 'bg-gray-800' : 'bg-white'} border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                {['home', 'about', 'projects', 'contact'].map((section) => (
+                  <button
+                    key={section}
+                    onClick={() => scrollToSection(section)}
+                    className={`w-full text-left px-6 py-3 capitalize ${darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-50'}`}
+                  >
+                    {section}
+                  </button>
+                ))}
+              </div>
+            )}
+          </nav>
+
+          <section id="home" className={`min-h-screen flex items-center justify-center px-6 pt-20 ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-green-50 to-blue-50'}`}>
+            <div className="max-w-4xl mx-auto text-center fade-in">
+              <div className="animate-float mb-6">
+                <span className={`inline-block px-4 py-2 rounded-full text-sm font-mono ${darkMode ? 'bg-gray-800 text-green-400' : 'bg-white text-green-600'} shadow-lg`}>
+                  👋 Welcome to my portfolio
+                </span>
+              </div>
+              <h1 className={`text-5xl md:text-7xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Hi, I'm <span className="gradient-text">Your Name</span>
+              </h1>
+              <p className={`text-xl md:text-2xl mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
+                Builder of arcade cabinets, Raspberry Pi enthusiast, and PC hardware tinkerer. I bring ideas to life through tech.
+              </p>
+              <div className="flex gap-4 justify-center">
+                <button
+                  onClick={() => scrollToSection('projects')}
+                  className="px-8 py-3 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all"
+                >
+                  View My Projects
+                </button>
+                <button
+                  onClick={() => scrollToSection('about')}
+                  className={`px-8 py-3 rounded-lg font-medium transition-all ${darkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-white text-gray-900 hover:shadow-lg'}`}
+                >
+                  Learn More
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section id="about" className={`py-20 px-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+            <div className="max-w-6xl mx-auto">
+              <h2 className={`text-4xl font-bold mb-12 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                About Me
+              </h2>
+              <div className="grid md:grid-cols-3 gap-8 items-start mb-12">
+                <div className="md:col-span-1 flex justify-center">
+                  <div className="relative">
+                    <div className="w-48 h-48 rounded-full bg-gradient-to-br from-green-500 to-blue-600 p-1">
+                      <img
+                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop"
+                        alt="Profile"
+                        className="w-full h-full rounded-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 w-16 h-16 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center text-2xl">
+                      🛠️
+                    </div>
+                  </div>
+                </div>
+                <div className="md:col-span-2">
+                  <p className={`text-lg mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    I'm a maker and builder who loves bringing ideas to life through technology. Whether it's crafting custom arcade cabinets, building high-performance PCs, or experimenting with Raspberry Pi projects, I'm always working on something new.
+                  </p>
+                  <p className={`text-lg mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    My passion lies in the intersection of hardware and software—creating tangible experiences that people can interact with and enjoy. I also help small businesses leverage technology to grow and succeed.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    {['Raspberry Pi', 'PC Building', 'Arcade Builds', 'Full-Stack Dev', 'IoT', 'Small Business Tech'].map((skill) => (
+                      <span
+                        key={skill}
+                        className={`px-4 py-2 rounded-full text-sm font-medium ${darkMode ? 'bg-gray-700 text-green-400' : 'bg-green-100 text-green-700'}`}
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+                <div className="col-span-2 row-span-2 rounded-xl overflow-hidden shadow-lg">
+                  <img 
+                    src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&h=600&fit=crop" 
+                    alt="Workshop setup"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="rounded-xl overflow-hidden shadow-lg">
+                  <img 
+                    src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=300&h=300&fit=crop" 
+                    alt="PC Build"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="rounded-xl overflow-hidden shadow-lg">
+                  <img 
+                    src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=300&h=300&fit=crop" 
+                    alt="Raspberry Pi Project"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="rounded-xl overflow-hidden shadow-lg">
+                  <img 
+                    src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=300&h=300&fit=crop" 
+                    alt="Arcade Cabinet"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="rounded-xl overflow-hidden shadow-lg">
+                  <img 
+                    src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&h=300&fit=crop" 
+                    alt="Coding Setup"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="projects" className={`py-20 px-6 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+            <div className="max-w-6xl mx-auto">
+              <h2 className={`text-4xl font-bold mb-12 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Projects
+              </h2>
+              <div className="mb-16">
+                <h3 className={`text-2xl font-semibold mb-6 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
+                  🚀 Ongoing Projects
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {projectsData.ongoing.map((project) => (
+                    <div
+                      key={project.id}
+                      onClick={() => setSelectedProject(project)}
+                      className={`project-card cursor-pointer rounded-xl overflow-hidden shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
+                    >
+                      <div className="h-48 overflow-hidden">
+                        <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="p-6">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                            {project.title}
+                          </h4>
+                          <span className="text-xs font-mono px-2 py-1 rounded bg-green-500 text-white">
+                            {project.status}
+                          </span>
+                        </div>
+                        <p className={`text-sm mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          {project.description.substring(0, 120)}...
+                        </p>
+                        <div className="mb-3">
+                          <div className={`h-2 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
+                            <div
+                              className="h-full rounded-full bg-gradient-to-r from-green-500 to-blue-600"
+                              style={{ width: project.progress }}
+                            />
+                          </div>
+                          <span className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                            {project.progress} complete
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className={`text-xs px-2 py-1 rounded ${darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-700'}`}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className={`text-2xl font-semibold mb-6 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                  ✅ Completed Projects
+                </h3>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {projectsData.past.map((project) => (
+                    <div
+                      key={project.id}
+                      onClick={() => setSelectedProject(project)}
+                      className={`project-card cursor-pointer rounded-xl overflow-hidden shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
+                    >
+                      <div className="h-40 overflow-hidden">
+                        <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="p-5">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                            {project.title}
+                          </h4>
+                          <span className={`text-xs font-mono ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                            {project.completedDate}
+                          </span>
+                        </div>
+                        <p className={`text-sm mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          {project.description.substring(0, 100)}...
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags.slice(0, 3).map((tag) => (
+                            <span
+                              key={tag}
+                              className={`text-xs px-2 py-1 rounded ${darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-700'}`}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="contact" className={`py-20 px-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className={`text-4xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Let's Connect
+              </h2>
+              <p className={`text-lg mb-8 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Interested in collaborating or just want to chat about tech? Reach out!
+              </p>
+              <div className="flex justify-center gap-6">
+                
+                  href="mailto:your.email@example.com"
+                  className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all ${darkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'}`}
+                >
+                  <Mail className="w-5 h-5" />
+                  Email
+                </a>
+                
+                  href="https://github.com/yourusername"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all ${darkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'}`}
+                >
+                  <Github className="w-5 h-5" />
+                  GitHub
+                </a>
+                
+                  href="https://linkedin.com/in/yourusername"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all ${darkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'}`}
+                >
+                  <Linkedin className="w-5 h-5" />
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <footer className={`py-8 px-6 border-t ${darkMode ? 'bg-gray-900 border-gray-800 text-gray-400' : 'bg-gray-50 border-gray-200 text-gray-600'}`}>
+            <div className="max-w-6xl mx-auto text-center">
+              <p>© 2025 Your Name. Built with React and ❤️</p>
+            </div>
+          </footer>
+
+          {selectedProject && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+              onClick={() => setSelectedProject(null)}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className={`max-w-3xl w-full max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl ${darkMode ? 'bg-gray-800' : 'bg-white'}`}
+              >
+                <div className="relative h-64">
+                  <img src={selectedProject.image} alt={selectedProject.title} className="w-full h-full object-cover" />
+                  <button
+                    onClick={() => setSelectedProject(null)}
+                    className="absolute top-4 right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+                <div className="p-8">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                      {selectedProject.title}
+                    </h3>
+                    {selectedProject.status && (
+                      <span className="px-3 py-1 rounded-full text-sm font-mono bg-green-500 text-white">
+                        {selectedProject.status}
+                      </span>
+                    )}
+                  </div>
+                  {selectedProject.progress && (
+                    <div className="mb-6">
+                      <div className="flex justify-between mb-2">
+                        <span className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Progress</span>
+                        <span className={`text-sm font-mono ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{selectedProject.progress}</span>
+                      </div>
+                      <div className={`h-3 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-green-500 to-blue-600"
+                          style={{ width: selectedProject.progress }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <p className={`text-lg mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    {selectedProject.description}
+                  </p>
+                  <div className="mb-6">
+                    <h4 className={`font-semibold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Technologies Used</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProject.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className={`px-3 py-1 rounded-full text-sm font-medium ${darkMode ? 'bg-gray-700 text-green-400' : 'bg-green-100 text-green-700'}`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    {selectedProject.links.github && (
+                      
+                        href={selectedProject.links.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
                       >
                         <Github className="w-5 h-5" />
@@ -8,25 +537,4 @@ rel="noopener noreferrer"
                     {selectedProject.links.demo && (
                       
                         href={selectedProject.links.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all ${darkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-100 text-gray-900 hover:bg-gray-200'}`}
-                      >
-                        <ExternalLink className="w-5 h-5" />
-                        Live Demo
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      );
-    };
-
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
-</body>
-</html>
+                        target="_
